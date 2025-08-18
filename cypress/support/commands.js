@@ -4,3 +4,23 @@ Cypress.Commands.add('login', (usuario, senha) => {
     cy.get('.woocommerce-form > .button').click()
 });
 
+
+Cypress.Commands.add('preencherCheckout', (checkout) => {
+  cy.get('#billing_first_name').type(checkout.nome)
+  cy.get('#billing_last_name').type(checkout.sobrenome)
+  cy.get('#billing_address_1').type(`${checkout.endereco1.rua}, ${checkout.endereco1.numero}`)
+  cy.get('#billing_address_2').type(checkout.endereco2.bairro)
+  cy.get('#billing_city').type(checkout.cidade)
+  cy.get('#billing_postcode').type(checkout.cep)
+  cy.get('#billing_phone').type(checkout.telefone)
+  cy.get('#terms').check()
+  cy.get('#place_order').click()
+});
+
+
+Cypress.Commands.add('irParaCheckout', () => {
+    cy.get('.dropdown-toggle > .text-skin > .icon-basket').click();
+    cy.get('#cart > .dropdown-menu > .widget_shopping_cart_content > .mini_cart_content > .mini_cart_inner > .mcart-border > .buttons > .view-cart').click();
+    cy.get('.checkout-button').click();
+});
+

@@ -1,22 +1,36 @@
 /// <reference types="cypress" />
+import produtosPage from '../support/page_objects/produtos.page'
+const perfil = require('../fixtures/perfil.json')
+const checkout = require ('../fixtures/checkout.json')
+
 
 context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
-  /*  Como cliente 
-      Quero acessar a Loja EBAC 
-      Para fazer um pedido de 4 produtos 
-      Fazendo a escolha dos produtos
-      Adicionando ao carrinho
-      Preenchendo todas opções no checkout
-      E validando minha compra ao final */
 
-  beforeEach(() => {
-      cy.visit('/')
-  });
+    beforeEach(() => {
+      cy.visit('minha-conta');
+    });
 
-  it('Deve fazer um pedido na loja Ebac Shop de ponta a ponta', () => {
-      //TODO: Coloque todo o fluxo de teste aqui, considerando as boas práticas e otimizações
-      
-  });
+    it('Deve finalizar o pedido com sucesso', () => {
+        
+        cy.fixture('perfil').then(perfil => {
+            cy.login(perfil.usuario, perfil.senha)
+        });
 
+         cy.fixture('produtos').then(dados => {
+            dados.forEach(produto => {
+            produtosPage.visitarProduto(produto.nomeProduto)
+            produtosPage.addProdutoCarrinho(
+                produto.tamanho,
+                produto.cor,
+                produto.quantidade
+            )
+            })
+        })
 
+        cy.irParaCheckout()
+
+        cy.fixture('checkout').then(dados => {
+            cy.preencherCheckout(dados)
+            })     
+    });
 })
