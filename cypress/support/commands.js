@@ -4,6 +4,11 @@ Cypress.Commands.add('login', (usuario, senha) => {
     cy.get('.woocommerce-form > .button').click()
 });
 
+Cypress.Commands.add('irParaCheckout', () => {
+    cy.get('.dropdown-toggle > .text-skin > .icon-basket').click();
+    cy.get('#cart .view-cart').click();
+    cy.get('.checkout-button').click();
+});
 
 Cypress.Commands.add('preencherCheckout', (checkout) => {
   cy.get('#billing_first_name').type(checkout.nome)
@@ -15,12 +20,7 @@ Cypress.Commands.add('preencherCheckout', (checkout) => {
   cy.get('#billing_phone').type(checkout.telefone)
   cy.get('#terms').check()
   cy.get('#place_order').click()
-});
-
-
-Cypress.Commands.add('irParaCheckout', () => {
-    cy.get('.dropdown-toggle > .text-skin > .icon-basket').click();
-    cy.get('#cart > .dropdown-menu > .widget_shopping_cart_content > .mini_cart_content > .mini_cart_inner > .mcart-border > .buttons > .view-cart').click();
-    cy.get('.checkout-button').click();
+  cy.get('.woocommerce-notice', { timeout: 5000 })
+    .should('contain', 'Obrigado. Seu pedido foi recebido.');
 });
 
