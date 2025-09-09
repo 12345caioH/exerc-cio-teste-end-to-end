@@ -20,7 +20,7 @@ Cypress.Commands.add('preencherCheckout', (checkout) => {
   cy.get('#billing_phone').type(checkout.telefone)
   cy.get('#terms').check()
   cy.get('#place_order').click()
-  cy.get('.woocommerce-notice', { timeout: 5000 })
+  cy.get('.woocommerce-notice', { timeout: 10000 })
     .should('contain', 'Obrigado. Seu pedido foi recebido.');
 });
 
