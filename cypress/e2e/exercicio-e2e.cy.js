@@ -33,4 +33,4 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
             cy.preencherCheckout(dados)
             })     
     });
-})
+});
